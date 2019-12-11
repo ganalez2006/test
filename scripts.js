@@ -44,7 +44,7 @@ async function getPosts() {
 		, cache: 'default'
 	};
 	
-	let response = await fetch('http://demo.wp-api.org/wp-json/wp/v2/posts', miInit);
+	let response = await fetch('//demo.wp-api.org/wp-json/wp/v2/posts', miInit);
 	let user = await response.json();
 
 	console.debug(user);
