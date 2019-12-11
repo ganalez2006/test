@@ -1,7 +1,7 @@
 var app = new Vue({
 	el: '#app'
 	, data: {
-		titulo: 'Hola mundo con Vue'
+		titulo: 'Hola mundo con Vue desde Git'
 		, productos: [
 			{nombre: 'manzana', cantidad: 10}
 			, {nombre: 'pera', cantidad: 0}
