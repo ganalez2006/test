@@ -2,9 +2,66 @@
 <html lang="es">
 <head>
 	<meta charset="UTF-8">
-	<title>Test</title>
+	<title>Ejemplos de Vue.js</title>
 </head>
 <body>
-	<h1>Hola mundo</h1>
+
+	<style>
+	.block {
+		min-width: 30px;
+		height: 30px;
+		display: inline-block;
+		line-height: 30px;
+		text-align: center;
+		color: #1B1B1B;
+		padding: 0 4px;
+	}
+	.b1 {
+		background: #309ABB;
+		border: 1px solid #309ABB;
+	}
+	.b2 {
+		background: #1B1B1B;
+		border: 1px solid #1B1B1B;
+		color: #FDFDFD;
+	}
+	.b3 {
+		background: #86868F;
+		border: 1px solid #86868F;
+	}
+	.b4 {
+		background: #FDFDFD;
+		border: 1px solid #e0e0e0;
+	}
+	</style>
+
+	<div id="app">
+
+		<div v-for="i in 4" :class="'block b'+i">{{sumarProductos}}</div>
+
+		<h1>{{titulo}}</h1>
+
+		<input type="text" v-model="nuevaProducto" @keyup.enter="agregarProducto">
+		<button @click="agregarProducto">Agregar</button>
+
+		<ul>
+			<li v-for="[i, producto] of productos.entries()">
+				<button @click="productos.splice(i, 1)">x</button>
+				<button @click="producto.cantidad++">+</button>
+				<button @click="producto.cantidad--">-</button>
+				<input type="number" min="0"
+					v-model.number="producto.cantidad = (producto.cantidad === '') ? 0 : (producto.cantidad < 0) ? 0 : producto.cantidad">
+				 - {{producto.nombre}}
+				<span v-if="producto.cantidad === 0"> - Sin stock</span>
+			</li>
+		</ul>
+
+		<h4>Total de productos: {{sumarProductos}}</h4>
+		
+	</div>
+
+	<!-- development version, includes helpful console warnings -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="scripts.js?v=1"></script>
 </body>
 </html>
