@@ -30,7 +30,7 @@ $pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
 preg_match_all($pattern, $img, $parts);
 
 // imagen
-$img = $parts[1][0]);
+$img = $parts[1][0];
 echo '<img src="'. $img[1][0] . '" alt="">';
 
 exit;
