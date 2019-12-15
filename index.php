@@ -25,14 +25,11 @@ curl_close($ch);
 preg_match_all("|<tr>(.*?)</tr>|si", $content, $parts);
 
 $img = $parts[1][3];
-var_dump($img);
 
 $pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
 preg_match_all($pattern, $img, $a);
-var_dump($a);
+var_dump($a[1][0]);
 
-$img = str_replace(' ', '', $img);
-var_dump($img);
 
 //var_dump(explode(' ', $parts[1][3]));
 //var_dump(explode(' ', $parts[1][3]));
