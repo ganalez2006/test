@@ -27,10 +27,10 @@ $img = $parts[1][3];
 
 // expression regular para la url
 $pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
-preg_match_all($pattern, $img, $img);
+preg_match_all($pattern, $img, $parts);
 
 // imagen
-$img = $img[1][0]);
+$img = $parts[1][0]);
 echo '<img src="'. $img[1][0] . '" alt="">';
 
 exit;
