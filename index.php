@@ -22,6 +22,10 @@ curl_close($ch);
 //var_dump($content);
 //var_dump($error);
 
+preg_match_all ("|<tr>(.*?)</tr>|si", $content, $parts);
+var_dump($parts);
+exit;
+
 $doc = new DOMDocument();
 @$doc->loadHTML($content);
 $metas = $doc->getElementsByTagName('table');
