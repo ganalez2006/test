@@ -22,7 +22,7 @@
 	#url {
 		display: block;
 		margin: 10px auto;
-		width: 100%;
+		width: calc(100% - 20px);
 		max-width: 100%;
 		padding: 10px;
 		border-radius: 2px;
@@ -30,7 +30,7 @@
 	}
 	img {
 		display: block;
-		margin: auto;
+		margin: 20px auto;
 		max-width: 100%;
 	}
 	</style>
