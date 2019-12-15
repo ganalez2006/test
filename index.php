@@ -6,7 +6,7 @@ set_time_limit(60 * 3);
 
 $url = 'https://www.instagram.com/p/B3WRcIbg961/';
 $url = 'https://opengraphcheck.com/result.php?url=' . urlencode($url);
-var_dump($url);
+//var_dump($url);
 
 // Peticion curl
 $ch = curl_init($url);
@@ -19,8 +19,8 @@ $content = curl_exec($ch);
 $error = curl_error($ch);
 curl_close($ch);
 
-var_dump($content);
-var_dump($error);
+//var_dump($content);
+//var_dump($error);
 
 $doc = new DOMDocument();
 @$doc->loadHTML($content);
