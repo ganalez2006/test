@@ -10,10 +10,20 @@ $url = $_POST['url'];
 if (!isset($url) || empty($url)) {
 
 	?>
+	<style>
+	#url {
+		display: block;
+		margin: 10px auto;
+		width: 100%;
+		padding: 10px;
+		border-radius: 2px;
+		border: 1px solid #cdcdcd;
+	}
+	</style>
 	<form action="" method="POST">
 		<label for="url">
 			Instagram Image url: <br>
-			<input type="text" name="url" id="url" style="display:block;margin:auto;">
+			<input type="text" name="url" id="url">
 		</label>
 	</form>
 	<?php
