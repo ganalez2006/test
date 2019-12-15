@@ -22,10 +22,14 @@ curl_close($ch);
 //var_dump($content);
 //var_dump($error);
 
-preg_match_all ("|<tr>(.*?)</tr>|si", $content, $parts);
+preg_match_all("|<tr>(.*?)</tr>|si", $content, $parts);
 
 $img = $parts[1][3];
 var_dump($img);
+
+$pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
+preg_match_all($pattern, $img, $a);
+var_dump($a);
 
 $img = str_replace(' ', '', $img);
 var_dump($img);
