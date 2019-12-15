@@ -9,6 +9,16 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	
 	<style>
+	html,
+	body {
+		margin: 0;
+		padding: 10px;
+		color: #000;
+		font-family: helvetica, verdana, arial;
+		font-size: 100%;
+		line-height: 1.4;
+		height: auto;
+	}
 	#url {
 		display: block;
 		margin: 10px auto;
