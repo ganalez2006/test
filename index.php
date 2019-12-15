@@ -5,12 +5,12 @@
 set_time_limit(60 * 3);
 
 //$url = 'https://www.instagram.com/p/B3WRcIbg961/';
-$url = $_GET['url'];
+$url = $_POST['url'];
 
 if (!isset($url) || empty($url)) {
 
 	?>
-	<form action="">
+	<form action="" method="POST">
 		<label for="url">
 			Instagram Image url: <br>
 			<input type="text" name="url" id="url" style="display:block;margin:auto;">
