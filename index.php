@@ -24,13 +24,16 @@ preg_match_all("|<tr>(.*?)</tr>|si", $content, $parts);
 
 // fila de la imagen
 $img = $parts[1][3];
+var_dump($img);
 
 // expression regular para la url
 $pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
 preg_match_all($pattern, $img, $parts);
+var_dump($parts);
 
 // imagen
 $img = $parts[1][0];
+var_dump($img);
 echo '<img src="'. $img[1][0] . '" alt="">';
 
 exit;
