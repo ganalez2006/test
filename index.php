@@ -30,10 +30,6 @@ preg_match_all($pattern, $img, $parts);
 
 // imagen
 $img = $parts[1][0];
-//echo '<img src="'. $img . '" alt="">';
-
-header("Content-disposition: attachment; filename=$img");
-header("Content-type: application/octet-stream");
-readfile($img);
+echo '<img src="'. $img . '" alt="" style="display:block;margin:auto;">';
 
 exit;
