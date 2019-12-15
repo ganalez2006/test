@@ -19,31 +19,18 @@ $content = curl_exec($ch);
 $error = curl_error($ch);
 curl_close($ch);
 
-//var_dump($content);
-//var_dump($error);
-
+// extraer las filas de la tabla
 preg_match_all("|<tr>(.*?)</tr>|si", $content, $parts);
 
+// fila de la imagen
 $img = $parts[1][3];
 
+// expression regular para la url
 $pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
-preg_match_all($pattern, $img, $a);
-var_dump($a[1][0]);
+preg_match_all($pattern, $img, $img);
 
-
-//var_dump(explode(' ', $parts[1][3]));
-//var_dump(explode(' ', $parts[1][3]));
-exit;
-
-$doc = new DOMDocument();
-@$doc->loadHTML($content);
-$metas = $doc->getElementsByTagName('table');
-
-for ($i = 0; $i < $metas->length; $i++) {
-
-	$meta = $metas->item($i);
-	var_dump($meta);
-	var_dump($meta->getAttribute('name'));
-}
+// imagen
+$img = $img[1][0]);
+echo '<img src="'. $img[1][0] . '" alt="">';
 
 exit;
