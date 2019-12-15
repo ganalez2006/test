@@ -23,7 +23,7 @@ curl_close($ch);
 //var_dump($error);
 
 preg_match_all ("|<tr>(.*?)</tr>|si", $content, $parts);
-var_dump($parts);
+var_dump($parts[1][3]);
 exit;
 
 $doc = new DOMDocument();
