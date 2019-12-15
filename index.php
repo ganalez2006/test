@@ -4,7 +4,12 @@
 // tiempo maximo de ejecucion de php (s * m)
 set_time_limit(60 * 3);
 
-$url = 'https://www.instagram.com/p/B3WRcIbg961/';
+//$url = 'https://www.instagram.com/p/B3WRcIbg961/';
+$url = $_GET['url'];
+
+if (!isset($url) || empty($url))
+	die('get url');
+
 $url = 'https://opengraphcheck.com/result.php?url=' . urlencode($url);
 
 // Peticion curl
