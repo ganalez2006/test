@@ -34,6 +34,6 @@ var_dump($parts);
 // imagen
 $img = $parts[1][0];
 var_dump($img);
-echo '<img src="'. $img[1][0] . '" alt="">';
+echo '<img src="'. $img . '" alt="">';
 
 exit;
