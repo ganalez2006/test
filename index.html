@@ -51,12 +51,12 @@
 
 		<ul>
 			<li v-for="[i, producto] of productos.entries()">
-				<button @click="productos.splice(i, 1)">x</button>
-				<button @click="producto.cantidad++">+</button>
-				<button @click="producto.cantidad--">-</button>
-				<input type="number" min="0"
-					v-model.number="producto.cantidad = (producto.cantidad === '') ? 0 : (producto.cantidad < 0) ? 0 : producto.cantidad">
-				 - {{producto.nombre}}
+				<button @click="eliminarProducto(i)">x</button>
+				<button @click="sumarProducto(i)">+</button>
+				<button @click="restarProducto(i)">-</button>
+				<input type="number" min="0" @change="validarProducto(i)"
+				v-model.number="producto.cantidad = (producto.cantidad === '') ? 0 : (producto.cantidad < 0) ? 0 : producto.cantidad">
+				- {{producto.nombre}}
 				<span v-if="producto.cantidad === 0"> - Sin stock</span>
 			</li>
 		</ul>
@@ -67,6 +67,6 @@
 
 	<!-- development version, includes helpful console warnings -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="scripts.js?v=1"></script>
+	<script src="scripts.js?v=2"></script>
 </body>
 </html>
