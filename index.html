@@ -12,6 +12,9 @@
 <body>
 
 	<style>
+	.hide {
+		display: none;
+	}
 	.block {
 		min-width: 30px;
 		height: 30px;
@@ -40,7 +43,7 @@
 	}
 	</style>
 
-	<div id="app">
+	<div id="app" class="hide">
 
 		<div v-for="i in 4" :class="'block b'+i">{{sumarProductos}}</div>
 

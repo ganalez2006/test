@@ -67,6 +67,7 @@ var app = new Vue({
 				localStorage.removeItem('productos');
 			}
 		}
+		document.getElementById('app').classList.remove("hide");
 	}
 	, watch: {
 		productos() {
