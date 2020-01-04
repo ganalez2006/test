@@ -1,32 +1,76 @@
 var app = new Vue({
 	el: '#app'
-	, data: {
-		titulo: 'Hola mundo con Vue desde Git'
-		, productos: [
-			{nombre: 'manzana', cantidad: 10}
-			, {nombre: 'pera', cantidad: 0}
-			, {nombre: 'platano', cantidad: 10}
-		]
-		, nuevaProducto: ''
-		, totalProductos: 0
+	, data() {
+		return {
+			titulo: 'Lista de compras'
+			, productos: []
+			, nuevoProducto: ''
+			, totalProductos: 0
+		}
 	}
 	, methods: {
 		agregarProducto() {
 
-			if (this.nuevaProducto !== '') {
+			if (this.nuevoProducto !== '') {
 
-				this.productos.push({nombre: this.nuevaProducto, cantidad:0});
-				this.nuevaProducto = '';
+				this.productos.push({nombre: this.nuevoProducto, cantidad:0});
+				this.nuevoProducto = '';
+				this.guardarProductos();
 			}
+		}
+		, eliminarProducto(i) {
+			this.productos.splice(i, 1);
+			this.guardarProductos();
+		}
+		, sumarProducto(i) {
+			this.productos[i].cantidad++;
+			this.guardarProductos();
+		}
+		, restarProducto(i) {
+
+			if (this.productos[i].cantidad > 0)
+				this.productos[i].cantidad--;
+			
+			this.guardarProductos();
+		}
+		, validarProducto(i) {
+			this.productos[i].cantidad = (this.productos[i].cantidad === '') 
+										? 0 
+										: (this.productos[i].cantidad < 0) 
+										? 0 
+										: this.productos[i].cantidad;
+			this.guardarProductos();
+		}
+		, guardarProductos() {
+			let parsed = JSON.stringify(this.productos);
+			localStorage.setItem('productos', parsed);
 		}
 	}
 	, computed: {
 		sumarProductos() {
+
 			this.totalProductos = 0;
-			for (fruta of this.productos) {
-				this.totalProductos += fruta.cantidad;
+
+			for (var producto of this.productos) {
+				
+				this.totalProductos += producto.cantidad;
 			}
+
 			return this.totalProductos;
+		}
+	}
+	, mounted() {
+		if(localStorage.getItem('productos')) {
+			try {
+				this.productos = JSON.parse(localStorage.getItem('productos'));
+			} catch(e) {
+				localStorage.removeItem('productos');
+			}
+		}
+	}
+	, watch: {
+		productos() {
+			this.guardarProductos();
 		}
 	}
 });
