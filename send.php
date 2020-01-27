@@ -68,8 +68,8 @@ $fields = array(
 	'notification' => array(
 		'body' => json_encode($body)
 		)
-	, 'to' =>  $to['redmi']
 	, 'to' =>  $to['laptop']
+	, 'to' =>  $to['redmi']
 	);
 
 $headers = array( 
