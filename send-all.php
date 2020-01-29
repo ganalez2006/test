@@ -3,6 +3,8 @@
 define('API_ACCESS_KEY','AAAANSnda04:APA91bEyi6awZtp-8eO6hyTWJBfIKH8S-5nyD9dl0p8d_NImGn8I8nx9dqz2xe8kxx7Tf6PsiuMS__9B94miaBLOXcgQoQL_XLFCGoHWDRPbro6GOOcQgkvz9KPMVpt_gqJtnQnZpued');
 
 $url = 'https://fcm.googleapis.com/fcm/send';
+//$url = 'https://fcmregistrations.googleapis.com/v1/projects/test-pwa-6be03/send';
+
 
 $title = '@helmet_indonesia';
 $tag = 'tag-' . time();
@@ -36,6 +38,21 @@ $actions = array(
 			, 'type' => 'button'
 			)
 		)
+	, 'button' => array(
+		array(
+			'action' => 'action-1'
+			, 'title' => 'Boton 1'
+			, 'type' => 'button'
+			)
+		)
+	, 'text' => array(
+		array(
+			'action' => 'reply'
+			, 'title' => 'Responder'
+			, 'type' => 'text'
+			, 'placeholder' => 'Escribe tu respuesta'
+			)
+		)
 	);
 
 $data = array(
@@ -53,7 +70,7 @@ $body = array(
 		, 'icon' => $icon
 		, 'image' => $image
 		//, 'actions' => $actions['button-button']
-		, 'actions' => $actions['text-button']
+		, 'actions' => $actions['text']
 		, 'data' => $data
 		)
 	);
