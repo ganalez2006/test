@@ -8,7 +8,7 @@ if (array_key_exists('reply', $_REQUEST)) {
 	var_dump($_REQUEST['reply']);
 
 	// Log de respuestas
-	$reply = $_REQUEST['reply'] . "\n";
+	$reply = htmlspecialchars($_REQUEST['reply']) . "\n";
 
 	$fch = fopen($file, "a");
 	fwrite($fch, $reply);
