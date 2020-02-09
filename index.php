@@ -68,15 +68,15 @@
 
 		function get_elemnt($element) {
 
-			$img = $element->display_resources[0]->src;
+			$text = isset($element->accessibility_caption) ? $element->accessibility_caption : '';
 
 			if ($element->is_video) {
 				echo '<li><a href="'.$element->video_url.'" target="_blank">Video</a></li>';
-				echo '<li><a href="'.$img.'" target="_blank">Video Media Preview</a></li>';
-			} else {
+				$text = 'Video';
+			}
 
-				$text = ($element->accessibility_caption) ? $element->accessibility_caption : '';
-				echo '<li><a href="'.$img.'" target="_blank">Media Preview | '.$text.'</a></li>';
+			foreach ($element->display_resources as $key => $value) {
+				echo '<li><a href="'.$value->src.'" target="_blank">Media Preview | ' . $text . ' | '.$value->config_width.'</a></li>';
 			}
 		}
 
