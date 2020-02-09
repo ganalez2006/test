@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-	<title>Download Images Instagram</title>
+	<title>Download Images/Videos Instagram</title>
 
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -37,56 +37,104 @@
 </head>
 <body>
 
+	<form action="" method="POST">
+		<label for="url">
+			Instagram Post url: <br>
+			<input type="text" name="url" id="url">
+		</label>
+	</form>
+
 	<?php
 	// tiempo maximo de ejecucion de php (s * m)
 	set_time_limit(60 * 3);
 
-	//$url = 'https://www.instagram.com/p/B3WRcIbg961/';
-	$url = $_POST['url'];
+	$url = isset($_POST['url']) ? $_POST['url'] : '';
 
 	if (isset($url) && !empty($url)) {
 
-		$url = 'https://opengraphcheck.com/result.php?url=' . urlencode($url);
-
-		// Peticion curl
 		$ch = curl_init($url);
-		// solucionar "SSL certificate problem: unable to get local issuer certificate"
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-		// No imprimir el contenido en pantalla
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$content = curl_exec($ch);
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		// extraer las filas de la tabla
-		preg_match_all("|<tr>(.*?)</tr>|si", $content, $parts);
+		if ($content == '') {
 
-		// fila de la imagen
-		$img = $parts[1][3];
+			echo 'Error: Post de una cuenta privada.';
+			return;
+		}
 
-		// expression regular para la url
-		$pattern = '|(?<!")(?<!"\s)(https?:\/\/[^\s"\[<]+)|im';
-		preg_match_all($pattern, $img, $parts);
+		function get_elemnt($element) {
 
-		// imagen
-		$img = $parts[1][0];
-		?>
+			$img = $element->display_resources[0]->src;
 
-		<img src="<?= $img ?>" alt="">
+			if ($element->is_video) {
+				echo '<li><a href="'.$element->video_url.'" target="_blank">Video</a></li>';
+				echo '<li><a href="'.$img.'" target="_blank">Video Media Preview</a></li>';
+			} else {
 
-		<?php
+				$text = ($element->accessibility_caption) ? $element->accessibility_caption : '';
+				echo '<li><a href="'.$img.'" target="_blank">Media Preview | '.$text.'</a></li>';
+			}
+		}
+
+		preg_match_all('~<script[^>]*>\K[^<]*(?=</script>)~i', $content, $scripts);
+
+		foreach ($scripts[0] as $key => $value) {
+			if (strpos($value, 'window._sharedData = ') === 0) {
+				$scripts = $value;
+				break;
+			}
+		}
+
+		$json = str_replace('window._sharedData = ', '', $scripts);
+		$json = trim($json, ';');
+		$json = json_decode($json);
+		$json = $json->entry_data->PostPage[0]->graphql->shortcode_media;
+
+		echo '<ul>';
+
+		// post
+		echo '<li><a href="'.$url.'" target="_blank">Post url</a></li>';
+		
+		// username
+		echo '<li>@'.$json->owner->username.'</li>';
+
+		// full_name
+		echo '<li>Name: '.$json->owner->full_name.'</li>';
+
+		// profile_pic_url
+		echo '<li><a href="'.$json->owner->profile_pic_url.'" target="_blank">Profile pic</a></li>';
+
+		// description
+		$description = isset($json->edge_media_to_caption->edges[0]->node->text)
+						? $json->edge_media_to_caption->edges[0]->node->text
+						: false;
+		if ($description) 
+			echo '<li>'.$description.'</li>';
+
+		echo '</ul>';
+
+		echo '<ol>';
+
+		if (isset($json->edge_sidecar_to_children->edges)) {
+
+			$json = $json->edge_sidecar_to_children->edges;
+			foreach ($json as $key => $value) {
+				
+				$element = $value->node;
+				get_elemnt($element);
+			}
+		} else {
+
+			get_elemnt($json);
+		}
+
+		echo '</ol>';
 	}
 	?>
 
-	<form action="" method="POST">
-		<label for="url">
-			Instagram Image url: <br>
-			<input type="text" name="url" id="url">
-		</label>
-	</form>
-
 </body>
 </html>
-
-<?php #require_once('index.html') ?>
