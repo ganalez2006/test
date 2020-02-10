@@ -38,6 +38,11 @@
 <body>
 
 	<form action="" method="POST">
+		<label for="dwAll">
+			<input type="checkbox" name="dwAll" id="dwAll" value="true">
+			Descargar todo.
+		</label>
+		<br><br>
 		<label for="url">
 			Instagram Post url: <br>
 			<input type="text" name="url" id="url">
@@ -45,10 +50,29 @@
 	</form>
 
 	<?php
+
 	// tiempo maximo de ejecucion de php (s * m)
 	set_time_limit(60 * 3);
 
 	$url = isset($_POST['url']) ? $_POST['url'] : '';
+
+	global $dwAll;
+	$dwAll = isset($_POST['dwAll']) ? true : false;
+
+	// carpeta de descarga
+	if ($dwAll) {
+		
+		global $path;
+		$path = 'download-'.time();
+		if (!file_exists($path))
+			mkdir($path, 0755, true);
+
+		$filezip = time().'.zip';
+
+		global $zip;
+		$zip = new ZipArchive;
+		$zip->open($filezip, ZipArchive::CREATE);
+	}
 
 	if (isset($url) && !empty($url)) {
 
@@ -62,21 +86,49 @@
 
 		if ($content == '') {
 
-			echo 'Error: Post de una cuenta privada.';
+			echo 'Error: Url invalida.';
 			return;
 		}
 
 		function get_elemnt($element) {
+
+			global $dwAll;
+
+			$time = time();
 
 			$text = isset($element->accessibility_caption) ? $element->accessibility_caption : '';
 
 			if ($element->is_video) {
 				echo '<li><a href="'.$element->video_url.'" target="_blank">Video</a></li>';
 				$text = 'Video';
+
+				if ($dwAll) {
+
+					global $path;
+					$file = 'video'.$time.'.mp4';
+					$fch = fopen($path.'/'.$file, "w");
+					fwrite($fch, file_get_contents($element->video_url));
+					fclose($fch);
+
+					global $zip;
+					$zip->addFile($path.'/'.$file);
+				}
 			}
 
 			foreach ($element->display_resources as $key => $value) {
 				echo '<li><a href="'.$value->src.'" target="_blank">Media Preview | ' . $text . ' | '.$value->config_width.'</a></li>';
+
+				if ($dwAll) {
+
+					global $path;
+					$file = 'image-'.$time.'-'.$value->config_width.'.jpg';
+					$fch = fopen($path.'/'.$file, "w");
+					fwrite($fch, file_get_contents($value->src));
+					fclose($fch);
+
+					global $zip;
+					$zip->addFile($path.'/'.$file);
+				}
 			}
 		}
 
@@ -133,6 +185,37 @@
 		}
 
 		echo '</ol>';
+
+		if ($dwAll) {
+
+			// close the zip file
+			if (!$zip->close()) {
+				echo '<p>Error al crear archivo ZIP.</p>';
+			} else {
+				echo '<p>Successfully created the ZIP Archive!</p>';
+
+				// forzar descarga
+				header("Content-type: application/octet-stream");
+				header("Content-disposition: attachment; filename=".$filezip);
+				readfile($filezip);
+				unlink($filezip);
+
+				function rmDir_rf($folder) {
+					if (file_exists($folder)) {
+						foreach(glob($folder . "/*") as $file){             
+							if (is_dir($file)){
+								rmDir_rf($file);
+							} else {
+								unlink($file);
+							}
+						}
+						rmdir($folder);
+					}
+				}
+				rmDir_rf($path);
+				/**/
+			}
+		}		
 	}
 	?>
 
