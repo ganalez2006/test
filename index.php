@@ -121,7 +121,7 @@
 				if ($dwAll) {
 
 					global $path;
-					$file = 'image-'.$time.'-'.$value->config_width.'.jpg';
+					$file = 'image-'.$key.'-'.$time.'-'.$value->config_width.'.jpg';
 					$fch = fopen($path.'/'.$file, "w");
 					fwrite($fch, file_get_contents($value->src));
 					fclose($fch);
