@@ -52,7 +52,7 @@
 	<?php
 
 	// tiempo maximo de ejecucion de php (s * m)
-	set_time_limit(60 * 3);
+	set_time_limit(60 * 5);
 
 	$url = isset($_POST['url']) ? $_POST['url'] : '';
 
