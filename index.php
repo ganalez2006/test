@@ -38,11 +38,6 @@
 <body>
 
 	<form action="" method="POST">
-		<label for="dwAll">
-			<input type="checkbox" name="dwAll" id="dwAll" value="true">
-			Descargar todo.
-		</label>
-		<br><br>
 		<label for="url">
 			Instagram Post url: <br>
 			<input type="text" name="url" id="url">
@@ -56,8 +51,12 @@
 
 	$url = isset($_POST['url']) ? $_POST['url'] : '';
 
+	// Para descargar todo agregar a la url "?dwAll"
+	// Indicar la url a descargar y enter
+	// En local funciona sin problemas
+	// Online da un error con los videos
 	global $dwAll;
-	$dwAll = isset($_POST['dwAll']) ? true : false;
+	$dwAll = isset($_REQUEST['dwAll']) ? true : false;
 
 	// carpeta de descarga
 	if ($dwAll) {
