@@ -3,7 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-	<title>Download Images/Videos Instagram</title>
+	<title>Descargar fotos y videos de instagram | Download instagram photos and videos</title>
+	<meta name="reply-to" content="pradlig@gmail.com">
+	<link rev="made" href="mailto:pradlig@gmail.com">
+	<meta name="description" content="herramienta online para descargar fotos y videos de instagram, online tool to download instagram photos and videos">
+	<meta name="keywords" content="descargar imagenes de instagram,descargar fotos de instagram,descargar videos de instagram,download instagram images,download instagram photos,download instagram videos">
+	<meta name="revisit-after" content="3 days">
+	<meta name="robots" content="index, follow">
 
 	<meta name="apple-mobile-web-app-capable" content="yes" />
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -36,11 +42,18 @@
 	</style>
 </head>
 <body>
+	<h1>Descargar fotos y videos de instagram</h1>
+	<p>
+		Con esta herramienta puedes descargar fotos y videos de Instagram, 
+		siempre y cuando la publicación pertenezca a una cuenta pública. 
+		Solo necesitas copiar el enlace, pegarlo en el cuadro de texto y 
+		presionar la tecla enter.
+	</p>
 
 	<form action="" method="POST">
 		<label for="url">
 			Instagram Post url: <br>
-			<input type="text" name="url" id="url">
+			<input type="text" name="url" id="url" placeholder="Example: https://www.instagram.com/p/B72BfBgBAv-/">
 		</label>
 	</form>
 
@@ -51,29 +64,35 @@
 
 	$url = isset($_POST['url']) ? $_POST['url'] : '';
 
-	// Para descargar todo agregar a la url "?dwAll"
-	// Indicar la url a descargar y enter
-	// En local funciona sin problemas
-	// Online da un error con los videos
-	global $dwAll;
-	$dwAll = isset($_REQUEST['dwAll']) ? true : false;
-
-	// carpeta de descarga
-	if ($dwAll) {
-		
-		global $path;
-		$path = 'download-'.time();
-		if (!file_exists($path))
-			mkdir($path, 0755, true);
-
-		$filezip = time().'.zip';
-
-		global $zip;
-		$zip = new ZipArchive;
-		$zip->open($filezip, ZipArchive::CREATE);
-	}
-
 	if (isset($url) && !empty($url)) {
+
+		if (!preg_match("/^https?:\/\/(www\.)?instagram.com\/p\/(.)/", $url)) {
+
+			echo 'Error: Url invalida.';
+			exit;
+		}
+
+		// Para descargar todo agregar a la url "?dwAll"
+		// Indicar la url a descargar y enter
+		// En local funciona sin problemas
+		// Online da un error con los videos
+		global $dwAll;
+		$dwAll = isset($_REQUEST['dwAll']) ? true : false;
+
+		// carpeta de descarga
+		if ($dwAll) {
+			
+			global $path;
+			$path = 'download-'.time();
+			if (!file_exists($path))
+				mkdir($path, 0755, true);
+
+			$filezip = time().'.zip';
+
+			global $zip;
+			$zip = new ZipArchive;
+			$zip->open($filezip, ZipArchive::CREATE);
+		}
 
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
