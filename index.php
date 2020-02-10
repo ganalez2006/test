@@ -96,7 +96,7 @@
 
 			$time = time();
 
-			$text = isset($element->accessibility_caption) ? $element->accessibility_caption : '';
+			$text = isset($element->accessibility_caption) ? $element->accessibility_caption : time();
 
 			if ($element->is_video) {
 				echo '<li><a href="'.$element->video_url.'" target="_blank">Video</a></li>';
@@ -105,7 +105,7 @@
 				if ($dwAll) {
 
 					global $path;
-					$file = 'video'.$time.'.mp4';
+					$file = md5($element->video_url).'.mp4';
 					$fch = fopen($path.'/'.$file, "w");
 					fwrite($fch, file_get_contents($element->video_url));
 					fclose($fch);
@@ -116,12 +116,14 @@
 			}
 
 			foreach ($element->display_resources as $key => $value) {
+
+				var_dump($value);
 				echo '<li><a href="'.$value->src.'" target="_blank">Media Preview | ' . $text . ' | '.$value->config_width.'</a></li>';
 
 				if ($dwAll) {
 
 					global $path;
-					$file = 'image-'.$key.'-'.$time.'-'.$value->config_width.'.jpg';
+					$file = md5($value->src).'.jpg';
 					$fch = fopen($path.'/'.$file, "w");
 					fwrite($fch, file_get_contents($value->src));
 					fclose($fch);
