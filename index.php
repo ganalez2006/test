@@ -117,7 +117,6 @@
 
 			foreach ($element->display_resources as $key => $value) {
 
-				var_dump($value);
 				echo '<li><a href="'.$value->src.'" target="_blank">Media Preview | ' . $text . ' | '.$value->config_width.'</a></li>';
 
 				if ($dwAll) {
